@@ -34,7 +34,9 @@ data/*.json
 
 # Models
 saved_models/*.h5
-saved_models/*.pkl
+# Keep .keras and .pkl files for deployment
+!saved_models/*.keras
+!saved_models/*.pkl
 saved_models/*.joblib
 !saved_models/.gitkeep
 
