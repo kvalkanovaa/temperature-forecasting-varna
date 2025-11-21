@@ -1,5 +1,25 @@
 # 🌡️ Temperature Forecasting for Varna, Bulgaria
 
+## 🚀 Live Demo
+
+**Try it now:** [https://kvalkanovaa-temperature-forecasting-varna-app-ge8hqz.streamlit.app/](https://kvalkanovaa-temperature-forecasting-varna-app-ge8hqz.streamlit.app/)
+
+### Screenshots:
+
+<div align="center">
+
+**Main Screen**
+![Main Screen](docs/screenshots/main-screen.png)
+
+**AI Forecast Summary and Temperature Graph**
+![AI Forecast Summary and Temperature Graph](docs/screenshots/forecast-summary-temperature-graph.png)
+
+**Additional Weather Parameters**
+![Humidity & Pressure](docs/screenshots/humidity-pressure.png)
+
+</div>
+
+
 ## 📋 Description
 
 This project uses various **deep learning** and **machine learning** techniques to forecast air temperature for the next **24 hours** with a **30-minute** step (total of 48 predictions).
