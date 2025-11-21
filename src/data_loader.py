@@ -21,6 +21,7 @@ class WeatherDataLoader:
         self.latitude = latitude
         self.longitude = longitude
         self.base_url = "https://archive-api.open-meteo.com/v1/archive"
+        self.forecast_url = "https://api.open-meteo.com/v1/forecast"
         
     def fetch_historical_data(self, start_date, end_date, save_path=None):
         """
@@ -78,6 +79,55 @@ class WeatherDataLoader:
             
         except Exception as e:
             print(f"✗ Error fetching data: {e}")
+            raise
+    
+    def fetch_forecast_data(self, past_days=7):
+        """
+        Fetch current forecast data including recent past hours
+        Uses Forecast API which has up-to-date data
+        
+        Args:
+            past_days: Number of past days to include
+            
+        Returns:
+            DataFrame with recent weather data
+        """
+        print(f"Fetching current forecast data for {config.CITY_NAME}...")
+        
+        params = {
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "hourly": "temperature_2m,relative_humidity_2m,surface_pressure",
+            "past_days": past_days,
+            "forecast_days": 1,
+            "timezone": "UTC"
+        }
+        
+        try:
+            response = requests.get(self.forecast_url, params=params, verify=False)
+            response.raise_for_status()
+            data = response.json()
+            
+            # Parse the data
+            df = pd.DataFrame({
+                'datetime': pd.to_datetime(data['hourly']['time']),
+                'temperature_2m': data['hourly']['temperature_2m'],
+                'relative_humidity_2m': data['hourly']['relative_humidity_2m'],
+                'surface_pressure': data['hourly']['surface_pressure']
+            })
+            
+            # Resample to 30-minute intervals using interpolation
+            df.set_index('datetime', inplace=True)
+            df = df.resample('30min').interpolate(method='linear')
+            df.reset_index(inplace=True)
+            
+            print(f"✓ Successfully fetched {len(df)} records")
+            print(f"  Date range: {df['datetime'].min()} to {df['datetime'].max()}")
+            
+            return df
+            
+        except Exception as e:
+            print(f"✗ Error fetching forecast data: {e}")
             raise
     
     def load_or_fetch_data(self, start_date=config.START_DATE, 

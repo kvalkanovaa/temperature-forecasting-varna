@@ -14,15 +14,15 @@ LONGITUDE = 27.9147
 CITY_NAME = "Varna"
 
 # Data parameters
-START_DATE = "2022-01-01"  # 3 години вместо 7
-END_DATE = "2024-12-31"
+START_DATE = "2020-01-01"
+END_DATE = "2025-11-01"
 FEATURES = ['temperature_2m', 'relative_humidity_2m', 'surface_pressure']
 
 # Model parameters
 SEQUENCE_LENGTH = 48  # 24 часа * 2 (30-мин интервали) = 48 стъпки назад
 FORECAST_HORIZON = 48  # 24 часа напред със стъпка 30 мин
-BATCH_SIZE = 64  # По-голям batch за по-бързо обучение
-EPOCHS = 20  # 20 вместо 100
+BATCH_SIZE = 128  # Увеличен за по-бързо обучение с 6+ години данни
+EPOCHS = 15  # Намален заради по-голям dataset
 LEARNING_RATE = 0.001
 VALIDATION_SPLIT = 0.2
 TEST_SPLIT = 0.1
